@@ -3,15 +3,15 @@
 
   angular
     .module("spa-demo.subjects")
-    .service("spa-demo.subjects.currentSubjects", CurrentSubjects);
+    .service("spa-demo.subjects.currentThingTypes", CurrentThingTypes);
 
-  CurrentSubjects.$inject = ["$rootScope","$q",
+  CurrentThingTypes.$inject = ["$rootScope","$q",
                              "$resource",
                              "spa-demo.geoloc.currentOrigin",
                              "spa-demo.config.APP_CONFIG"];
 
-  function CurrentSubjects($rootScope, $q, $resource, currentOrigin, APP_CONFIG) {
-    var subjectsResource = $resource(APP_CONFIG.server_url + "/api/subjects",{},{
+  function CurrentThingTypes($rootScope, $q, $resource, currentOrigin, APP_CONFIG) {
+    var thingTypesResource = $resource(APP_CONFIG.server_url + "/api/things_with_types",{},{
       query: { cache:false, isArray:true }
     });
     var service = this;
@@ -23,8 +23,8 @@
     service.refresh = refresh;
     service.isCurrentImageIndex = isCurrentImageIndex;
     service.isCurrentThingIndex = isCurrentThingIndex;
-    service.nextThing = nextThing;
-    service.previousThing = previousThing;
+    // service.nextThing = nextThing;
+    // service.previousThing = previousThing;
 
     //refresh();
     $rootScope.$watch(function(){ return currentOrigin.getVersion(); }, refresh);
@@ -54,7 +54,7 @@
     }
 
     function refreshImages(params) {
-      var result=subjectsResource.query(params);
+      var result=thingTypesResource.query(params);
       result.$promise.then(
         function(images){
           service.images=images;
@@ -67,7 +67,7 @@
       return result.$promise;
     }
     function refreshThings(params) {
-      var result=subjectsResource.query(params);
+      var result=thingTypesResource.query(params);
       result.$promise.then(
         function(things){
           service.things=things;
@@ -104,35 +104,35 @@
     }    
   }
 
-  CurrentSubjects.prototype.getVersion = function() {
+  CurrentThingTypes.prototype.getVersion = function() {
     return this.version;
   }
-  CurrentSubjects.prototype.getImages = function() {
+  CurrentThingTypes.prototype.getImages = function() {
     return this.images;
   }
-  CurrentSubjects.prototype.getThings = function() {
+  CurrentThingTypes.prototype.getThings = function() {
     return this.things;
   }
-  CurrentSubjects.prototype.getCurrentImageIndex = function() {
+  CurrentThingTypes.prototype.getCurrentImageIndex = function() {
      return this.imageIdx;
   }
-  CurrentSubjects.prototype.getCurrentImage = function() {
+  CurrentThingTypes.prototype.getCurrentImage = function() {
     return this.images.length > 0 ? this.images[this.imageIdx] : null;
   }
-  CurrentSubjects.prototype.getCurrentThing = function() {
+  CurrentThingTypes.prototype.getCurrentThing = function() {
     return this.things.length > 0 ? this.things[this.thingIdx] : null;
   }
-  CurrentSubjects.prototype.getCurrentImageId = function() {
+  CurrentThingTypes.prototype.getCurrentImageId = function() {
     var currentImage = this.getCurrentImage();
     return currentImage ? currentImage.image_id : null;
   }
-  CurrentSubjects.prototype.getCurrentThingId = function() {
+  CurrentThingTypes.prototype.getCurrentThingId = function() {
     var currentThing = this.getCurrentThing();
     return currentThing ? currentThing.thing_id : null;
   }
 
 
-  CurrentSubjects.prototype.setCurrentImage = function(index, skipThing) {
+  CurrentThingTypes.prototype.setCurrentImage = function(index, skipThing) {
     if (index >= 0 && this.images.length > 0) {
       this.imageIdx = (index < this.images.length) ? index : 0;
     } else if (index < 0 && this.images.length > 0) {
@@ -149,7 +149,7 @@
     return this.getCurrentImage();
   }
 
-  CurrentSubjects.prototype.setCurrentThing = function(index, skipImage) {
+  CurrentThingTypes.prototype.setCurrentThing = function(index, skipImage) {
     if (index >= 0 && this.things.length > 0) {
       this.thingIdx = (index < this.things.length) ? index : 0;
     } else if (index < 0 && this.things.length > 0) {
@@ -166,7 +166,7 @@
     return this.getCurrentThing();
   }
 
-  CurrentSubjects.prototype.setCurrentThingForCurrentImage = function() {
+  CurrentThingTypes.prototype.setCurrentThingForCurrentImage = function() {
     var image=this.getCurrentImage();
     if (!image || !image.thing_id) {
       this.thingIdx = null;
@@ -185,7 +185,7 @@
     }
   }
 
-  CurrentSubjects.prototype.setCurrentImageForCurrentThing = function() {
+  CurrentThingTypes.prototype.setCurrentImageForCurrentThing = function() {
     var image=this.getCurrentImage();
     var thing=this.getCurrentThing();
     if (!thing) {
@@ -201,7 +201,7 @@
     }
   }
 
-  CurrentSubjects.prototype.setCurrentImageId = function(image_id, skipThing) {
+  CurrentThingTypes.prototype.setCurrentImageId = function(image_id, skipThing) {
     var found=this.getCurrentImageId() === image_id;
     if (image_id && !found) {
       for(var i=0; i<this.images.length; i++) {
@@ -216,7 +216,7 @@
       this.setCurrentImage(null, true);      
     }
   }
-  CurrentSubjects.prototype.setCurrentThingId = function(thing_id, skipImage) {
+  CurrentThingTypes.prototype.setCurrentThingId = function(thing_id, skipImage) {
     var found=this.getCurrentThingId() === thing_id;
     if (thing_id && !found) {
       for (var i=0; i< this.things.length; i++) {
@@ -231,7 +231,7 @@
       this.setCurrentThing(null, true);      
     }    
   }
-  CurrentSubjects.prototype.setCurrentSubjectId = function(thing_id, image_id) {
+  CurrentThingTypes.prototype.setCurrentSubjectId = function(thing_id, image_id) {
     console.log("setCurrentSubject", thing_id, image_id);
     this.setCurrentThingId(thing_id, true);
     this.setCurrentImageId(image_id, true);
