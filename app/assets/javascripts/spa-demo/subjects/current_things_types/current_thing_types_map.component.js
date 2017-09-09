@@ -18,10 +18,10 @@
                                           "spa-demo.geoloc.currentOrigin",
                                           "spa-demo.geoloc.myLocation",
                                           "spa-demo.geoloc.Map",
-                                          "spa-demo.subjects.currentSubjects",
+                                          "spa-demo.subjects.currentThingTypes",
                                           "spa-demo.config.APP_CONFIG"];
   function CurrentThingTypesMapController($scope, $q, $element, 
-                                        currentOrigin, myLocation, Map, currentSubjects, 
+                                        currentOrigin, myLocation, Map, currentThingTypes, 
                                         APP_CONFIG) {
     var vm=this;
 
@@ -37,13 +37,13 @@
         });
 
       $scope.$watch(
-        function(){ return currentSubjects.getImages(); }, 
+        function(){ return currentThingTypes.getImages(); }, 
         function(images) { 
           vm.images = images; 
           displaySubjects(); 
         }); 
       $scope.$watch(
-        function(){ return currentSubjects.getCurrentImage(); }, 
+        function(){ return currentThingTypes.getCurrentImage(); }, 
         function(link) { 
           if (link) { 
             vm.setActiveMarker(link.thing_id, link.image_id); 
@@ -57,7 +57,7 @@
         function(marker) { 
           if (marker) {
             console.log("map changed markers", marker);
-            currentSubjects.setCurrentSubjectId(marker.thing_id, marker.image_id);
+            currentThingTypes.setCurrentSubjectId(marker.thing_id, marker.image_id);
           }
         }); 
       $scope.$watch(
