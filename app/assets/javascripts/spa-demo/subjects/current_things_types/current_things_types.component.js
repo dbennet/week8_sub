@@ -23,8 +23,8 @@
   // }    
 
   CurrentThingsTypesController.$inject = ["$scope",
-                                     "spa-demo.subjects.currentSubjects"];
-  function CurrentThingsTypesController($scope,currentSubjects) {
+                                     "spa-demo.subjects.currentThingTypes"];
+  function CurrentThingsTypesController($scope,currentThingTypes) {
     var vm=this;
 
     // add options for types
@@ -43,7 +43,7 @@
 
 
     vm.thingClicked = thingClicked;
-    vm.isCurrentThing = currentSubjects.isCurrentThingIndex;
+    vm.isCurrentThing = currentThingTypes.isCurrentThingIndex;
 
 
 
