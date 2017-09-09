@@ -239,6 +239,31 @@
 
 
 
+  //add proto for type of thing
+
+  CurrentThingTypes.prototype.setCurrentTypes = function(values) {
+     if (typeof values != "undefined") {
+       this.thingTypes = null;
+       var list = null;
+       var pre_keys = Object.keys(values.value)
+       var keys = keys.filter(function(pre_keys) {
+         return values.value[key];
+       });
+       keys.forEach(function(value) {
+         if (list) {
+           list = ","  value;
+         } else {
+           list = value;
+         }
+       });
+       this.thingTypes = list;
+       this.refresh();
+     } else {
+       this.thingTypes = null;
+       this.refresh();
+     }
+   }
+
 
 
 

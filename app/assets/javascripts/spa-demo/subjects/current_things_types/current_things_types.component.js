@@ -72,6 +72,8 @@
     }    
 
     function typesSubmitted(value) {
+       console.log("we have submitted some types");
+       console.log(value);
        currentThingTypes.setCurrentTypes(value);
     } 
   }
