@@ -6,9 +6,10 @@ class ThingImagesController < ApplicationController
   before_action :get_image, only: [:image_things]
   before_action :get_thing_image, only: [:update, :destroy]
   before_action :authenticate_user!, only: [:create, :update, :destroy]
-  after_action :verify_authorized, except: [:subjects]
+  # let random user see type of thing
+  after_action :verify_authorized, except: [:subjects,:things_with_types]
   #after_action :verify_policy_scoped, only: [:linkable_things]
-  before_action :origin, only: [:subjects]
+  before_action :origin, only: [:subjects,:things_with_types]
 
   def index
     authorize @thing, :get_images?
@@ -52,7 +53,43 @@ class ThingImagesController < ApplicationController
       @thing_images=ThingImage.with_distance(@origin, @thing_images) if distance.downcase=="true"
       render "thing_images/index"
     end
-  end
+  
+
+
+  # we can use a lot of code from subjects for things_types method
+  # there is no need for etag
+
+    def things_with_types
+     miles=params[:miles] ? params[:miles].to_f : nil
+     subject=params[:subject]
+     distance=params[:distance] ||= "false"
+     if params[:types] != nil
+       types = params[:types].split(',')
+     else
+       types = nil
+     end
+ 
+     if types
+       @thing_images=ThingImage.within_range(@origin, miles)
+         .with_type(types) 
+         .with_caption
+         .with_position
+     else
+       @thing_images=ThingImage.within_range(@origin, miles)
+         .with_name
+         .with_caption
+         .with_position
+     end
+     @thing_images=@thing_images.things    if subject && subject.downcase=="thing"
+     @thing_images=ThingImage.with_distance(@origin, @thing_images) if distance.downcase=="true"
+     render "thing_images/index"
+   end
+
+
+
+
+
+
 
   def create
     thing_image = ThingImage.new(thing_image_create_params.merge({

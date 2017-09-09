@@ -67,7 +67,7 @@ namespace :ptourist do
     ImageContentCreator.new(img[:image], original_content).build_contents.save!
   end
 
-  def create_thing thing, organizer, members, images
+  def create_thing thing, organizer, members, images,types = []
     thing=Thing.create!(thing)
     organizer.add_role(Role::ORGANIZER, thing).save
     m=members.map { |member|
@@ -78,6 +78,12 @@ namespace :ptourist do
     }.select {|r| r}
     puts "added organizer for #{thing.name}: #{first_names([organizer])}"
     puts "added members for #{thing.name}: #{first_names(m)}"
+    # do not add empty types
+    if !types.empty?
+        types.each do |tp|
+            thing.add_type(type)
+        end
+    end
     images.each do |img|
       puts "building image for #{thing.name}, #{img[:caption]}, by #{organizer.name}"
       image=Image.create(:creator_id=>organizer.id,:caption=>img[:caption],:lat=>img[:lat],:lng=>img[:lng])
@@ -137,6 +143,7 @@ namespace :ptourist do
     :notes=>"Trains rule, boats and cars drool"}
     organizer=get_user("alice")
     members=boy_users
+    types=[ThingType::MUSEUM]
     images=[
     {:path=>"db/bta/image001_original.jpg",
      :caption=>"Front of Museum Restored: 1884 B&O Railroad Museum Roundhouse",
@@ -205,6 +212,7 @@ namespace :ptourist do
     :notes=>"Early to bed, early to rise"}
     organizer=get_user("carol")
     members=girl_users
+    types=[ThingType::HOTEL]
     images=[
     {:path=>"db/bta/hitim-001.jpg",
      :caption=>"Hotel Front Entrance",
@@ -254,6 +262,7 @@ Work up a sweat in our 24-hour StayFit Gym, which features Life Fitness® cardio
 "}
     organizer=get_user("marsha")
     members=girl_users
+    types=[ThingType::HOTEL]
     images=[
     {:path=>"db/bta/hpm-001.jpg",
      :caption=>"Hotel Front Entrance",
@@ -303,7 +312,7 @@ Work up a sweat in our 24-hour StayFit Gym, which features Life Fitness® cardio
      :lat=>39.2847
      }
     ]
-    create_thing thing, organizer, members, images
+    create_thing thing, organizer, members, images, types
 
     organizer=get_user("peter")
     image= {:path=>"db/bta/aquarium.jpg",
