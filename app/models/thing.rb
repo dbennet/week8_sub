@@ -10,4 +10,9 @@ class Thing < ActiveRecord::Base
 
   scope :not_linked, ->(image) { where.not(:id=>ThingImage.select(:thing_id)
                                                           .where(:image=>image)) }
+
+  def add_type type_name
+  	self.thing_types.new(:type_name=>type_name)
+  end
+
 end

@@ -71,3 +71,5 @@
 
 //= require spa-demo/subjects/current_things_types/current_things_types.component
 //= require spa-demo/subjects/current_things_types/current_thing_types.service
+//= require spa-demo/subjects/current_things_types/current_thing_types_map.component
+//= require spa-demo/subjects/current_things_types/current_thing_types_images.component
