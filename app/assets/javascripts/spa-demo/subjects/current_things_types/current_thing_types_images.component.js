@@ -19,7 +19,7 @@
     // })
     // ;
 
-  imagesTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
+  currentThingTypesImagesTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
   function currentThingTypesImagesTemplateUrl(APP_CONFIG) {
     return APP_CONFIG.current_ti_html;
   }    

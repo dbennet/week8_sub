@@ -111,6 +111,8 @@
     }
 
     function displaySubject(ti) {
+      console.log("At display subjects");
+      console.log(ti);
       var markerOptions = {
         position: {
           lng: ti.position.lng,
