@@ -53,37 +53,38 @@ class ThingImagesController < ApplicationController
       @thing_images=ThingImage.with_distance(@origin, @thing_images) if distance.downcase=="true"
       render "thing_images/index"
     end
+  end
   
 
 
   # we can use a lot of code from subjects for things_types method
   # there is no need for etag
 
-    def things_with_types
-     miles=params[:miles] ? params[:miles].to_f : nil
-     subject=params[:subject]
-     distance=params[:distance] ||= "false"
-     if params[:types] != nil
-       types = params[:types].split(',')
-     else
-       types = nil
-     end
+  def things_with_types
+    miles=params[:miles] ? params[:miles].to_f : nil
+    subject=params[:subject]
+    distance=params[:distance] ||= "false"
+    if params[:types] != nil
+      types = params[:types].split(',')
+    else
+      types = nil
+    end
  
-     if types
+    if types
        @thing_images=ThingImage.within_range(@origin, miles)
          .with_type(types) 
          .with_caption
          .with_position
-     else
+    else
        @thing_images=ThingImage.within_range(@origin, miles)
-         .with_name
-         .with_caption
-         .with_position
-     end
-     @thing_images=@thing_images.things    if subject && subject.downcase=="thing"
-     @thing_images=ThingImage.with_distance(@origin, @thing_images) if distance.downcase=="true"
-     render "thing_images/index"
-   end
+        .with_name
+        .with_caption
+        .with_position
+    end
+    @thing_images=@thing_images.things    if subject && subject.downcase=="thing"
+    @thing_images=ThingImage.with_distance(@origin, @thing_images) if distance.downcase=="true"
+    render "thing_images/index"
+  end
 
 
 

@@ -246,12 +246,13 @@
        this.thingTypes = null;
        var list = null;
        var pre_keys = Object.keys(values.value)
-       var keys = keys.filter(function(pre_keys) {
+       var keys = pre_keys.filter(function(key) {
          return values.value[key];
        });
+
        keys.forEach(function(value) {
          if (list) {
-           list = ","  value;
+           list = "," + value;
          } else {
            list = value;
          }
