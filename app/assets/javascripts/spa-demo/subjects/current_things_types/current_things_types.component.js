@@ -61,14 +61,14 @@
     }
     vm.$postLink = function() {
       $scope.$watch(
-        function() { return currentSubjects.getThings(); }, 
+        function() { return currentThingTypes.getThings(); }, 
         function(things) { vm.things = things; }
       );
     }    
     return;
     //////////////
     function thingClicked(index) {
-      currentSubjects.setCurrentThing(index);
+      currentThingTypes.setCurrentThing(index);
     }    
 
     function typesSubmitted(value) {
