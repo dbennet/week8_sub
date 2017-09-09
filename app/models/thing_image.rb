@@ -27,8 +27,8 @@ class ThingImage < ActiveRecord::Base
 
    #use thing id from thingtype to find the images the type of thing 
   scope :with_type, ->(types) { where("thing_id in (?)", ThingType.where("type_name in (?)", types).pluck(:thing_id))
-                                   .joins("join things on things.name = thing_images.thing_name")
-                                   .select("thing_images.*, things.id as thing_id") }
+                                   .joins("join things on things.id = thing_images.thing_id")
+                                   .select("thing_images.*, things.name as thing_name") }
 
   def self.with_distance(origin, scope)
     scope.select("-1.0 as distance").with_position
