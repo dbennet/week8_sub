@@ -5,77 +5,77 @@
 
   angular
     .module("spa-demo.subjects")
-    .component("sdCurrentImages", {
-      templateUrl: imagesTemplateUrl,
-      controller: CurrentImagesController,
-    })
-    .component("sdCurrentImageViewer", {
-      templateUrl: imageViewerTemplateUrl,
-      controller: CurrentImageViewerController,
-      bindings: {
-        name: "@",
-        minWidth: "@"
-      }
-    })
-    ;
+    .component("sdCurrentThingsTypesImages", {
+      templateUrl: currentThingTypesImagesTemplateUrl,
+      controller: currentThingTypesImagesController,
+    });
+    // .component("sdCurrentImageViewer", {
+    //   templateUrl: imageViewerTemplateUrl,
+    //   controller: CurrentImageViewerController,
+    //   bindings: {
+    //     name: "@",
+    //     minWidth: "@"
+    //   }
+    // })
+    // ;
 
   imagesTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
-  function imagesTemplateUrl(APP_CONFIG) {
-    return APP_CONFIG.current_images_html;
+  function currentThingTypesImagesTemplateUrl(APP_CONFIG) {
+    return APP_CONFIG.current_ti_html;
   }    
-  imageViewerTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
-  function imageViewerTemplateUrl(APP_CONFIG) {
-    return APP_CONFIG.current_image_viewer_html;
-  }    
+  // imageViewerTemplateUrl.$inject = ["spa-demo.config.APP_CONFIG"];
+  // function imageViewerTemplateUrl(APP_CONFIG) {
+  //   return APP_CONFIG.current_image_viewer_html;
+  // }    
 
-  CurrentImagesController.$inject = ["$scope",
-                                     "spa-demo.subjects.currentSubjects"];
-  function CurrentImagesController($scope, currentSubjects) {
+  currentThingTypesImagesController.$inject = ["$scope",
+                                     "spa-demo.subjects.currentThingTypes"];
+  function currentThingTypesImagesController($scope, currentThingTypes) {
     var vm=this;
     vm.imageClicked = imageClicked;
-    vm.isCurrentImage = currentSubjects.isCurrentImageIndex;
+    vm.isCurrentImage = currentThingTypes.isCurrentImageIndex;
 
     vm.$onInit = function() {
-      console.log("CurrentImagesController",$scope);
+      console.log("currentThingTypesImagesController",$scope);
     }
     vm.$postLink = function() {
       $scope.$watch(
-        function() { return currentSubjects.getImages(); }, 
+        function() { return currentThingTypes.getImages(); }, 
         function(images) { vm.images = images; }
       );
     }    
     return;
     //////////////
     function imageClicked(index) {
-      currentSubjects.setCurrentImage(index);
+      currentThingTypes.setCurrentImage(index);
     }
   }
 
-  CurrentImageViewerController.$inject = ["$scope",
-                                          "spa-demo.subjects.currentSubjects"];
-  function CurrentImageViewerController($scope, currentSubjects) {
-    var vm=this;
-    vm.viewerIndexChanged = viewerIndexChanged;
+  // CurrentImageViewerController.$inject = ["$scope",
+  //                                         "spa-demo.subjects.currentThingTypes"];
+  // function CurrentImageViewerController($scope, currentThingTypes) {
+  //   var vm=this;
+  //   vm.viewerIndexChanged = viewerIndexChanged;
 
-    vm.$onInit = function() {
-      console.log("CurrentImageViewerController",$scope);
-    }
-    vm.$postLink = function() {
-      $scope.$watch(
-        function() { return currentSubjects.getImages(); }, 
-        function(images) { vm.images = images; }
-      );
-      $scope.$watch(
-        function() { return currentSubjects.getCurrentImageIndex(); }, 
-        function(index) { vm.currentImageIndex = index; }
-      );
-    }    
-    return;
-    //////////////
-    function viewerIndexChanged(index) {
-      console.log("viewer index changed, setting currentImage", index);
-      currentSubjects.setCurrentImage(index);
-    }
-  }
+  //   vm.$onInit = function() {
+  //     console.log("CurrentImageViewerController",$scope);
+  //   }
+  //   vm.$postLink = function() {
+  //     $scope.$watch(
+  //       function() { return currentThingTypes.getImages(); }, 
+  //       function(images) { vm.images = images; }
+  //     );
+  //     $scope.$watch(
+  //       function() { return currentThingTypes.getCurrentImageIndex(); }, 
+  //       function(index) { vm.currentImageIndex = index; }
+  //     );
+  //   }    
+  //   return;
+  //   //////////////
+  //   function viewerIndexChanged(index) {
+  //     console.log("viewer index changed, setting currentImage", index);
+  //     currentThingTypes.setCurrentImage(index);
+  //   }
+  // }
 
 })();
