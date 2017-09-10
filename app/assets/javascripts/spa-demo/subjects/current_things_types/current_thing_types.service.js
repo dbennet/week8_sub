@@ -42,6 +42,7 @@
         params["miles"]=currentOrigin.getDistance();
       }
       params["order"]="ASC";
+      params["types"]=service.thingTypes;
       console.log("refresh",params);
 
       var p1=refreshImages(params);
@@ -243,16 +244,20 @@
 
   CurrentThingTypes.prototype.setCurrentTypes = function(values) {
      if (typeof values != "undefined") {
+       console.log('we are here now set current types ***');
+       console.log(values);
        this.thingTypes = null;
        var list = null;
        var pre_keys = Object.keys(values.value)
+       console.log(pre_keys);
        var keys = pre_keys.filter(function(key) {
          return values.value[key];
        });
 
        keys.forEach(function(value) {
          if (list) {
-           list = "," + value;
+
+           list = list + "," + value;
          } else {
            list = value;
          }

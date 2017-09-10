@@ -81,7 +81,7 @@ namespace :ptourist do
     # do not add empty types
     if !types.empty?
         types.each do |tp|
-            thing.add_type(tp)
+            thing.add_type(tp).save
         end
     end
     images.each do |img|
